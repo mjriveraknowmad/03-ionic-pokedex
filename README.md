@@ -25,7 +25,11 @@ O para generar los iconos:
 `npm install @capacitor/assets --save-dev`
 
 
-## Generara iconos
+## Generar páginas
+`ionic g page pages/list-pokemons`
+`ionic g page pages/detail-pokemon`
+
+## Generar iconos
 Se añadieron los scripts correspondientes en el package.json, y las imagenes en la carpeta resources
 
 `npm run generate-icons-android`
