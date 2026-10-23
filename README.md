@@ -36,6 +36,9 @@ O para generar los iconos:
 # Generar servicio
 `ionic g s services/pokemon`
 
+# Generar pipe
+`ionic g pipe pipes/GetStat`
+
 ## Generar iconos
 Se añadieron los scripts correspondientes en el package.json, y las imagenes en la carpeta resources
 
