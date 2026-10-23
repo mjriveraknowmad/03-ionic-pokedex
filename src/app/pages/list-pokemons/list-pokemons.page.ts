@@ -3,6 +3,8 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, LoadingController, IonGrid, IonRow, IonCol, IonImg, IonText, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/angular';
 import { Pokemon } from '../../services/pokemon';
+import { IPokemon } from '../models/pokemon.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-pokemons',
@@ -13,6 +15,7 @@ import { Pokemon } from '../../services/pokemon';
 export class ListPokemonsPage {
   private pokemonSvc = inject(Pokemon);
   private loadingCtrl = inject(LoadingController);
+  private router = inject(Router);
   pokemons = this.pokemonSvc.pokemons;
 
   ionViewWillEnter() {
@@ -31,6 +34,10 @@ export class ListPokemonsPage {
     if(loading){
       loading.dismiss();
     }
+  }
+
+  goToDetail(pokemon: IPokemon) {
+    this.router.navigate(['/detail-pokemon', pokemon.id]);
   }
 
 }
