@@ -7,8 +7,8 @@ import {
   IStat,
   PokemonResponse,
 } from '../pages/models/pokemon.model';
-import { mockResponsePokemonList } from './mockResponseList';
 import { generateMockCharacterList } from './mockGenerators';
+import { generatePokemonData } from './pokemonDataGenerator';
 
 @Service()
 export class Pokemon {
@@ -55,10 +55,7 @@ export class Pokemon {
         )
         .catch(() => {
           const id = +(pokemon.url.split('/').slice(-2, -1)[0]);
-          const mockIndex = id % 4;
-          return this.mapperPokemon(
-            mockResponsePokemonList[mockIndex] as PokemonResponse
-          );
+          return this.mapperPokemon(generatePokemonData(id));
         })
     );
 

@@ -60504,5 +60504,3 @@ export const mockResponsePokemonList = [
   mockResponsePokemon4
 ];
 
-
-
