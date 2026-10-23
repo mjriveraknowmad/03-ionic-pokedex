@@ -1,4 +1,4 @@
-# Task List
+# Ionic Pokedex
 Es una aplicación básica de Ionic 7 con Angular 19 y usando Karma/Jassmine, para aprender. Para ello lo que se ejecutó:
 
 `npm install -g @ionic/cli@v7`
