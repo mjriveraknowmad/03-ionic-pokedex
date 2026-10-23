@@ -29,6 +29,9 @@ O para generar los iconos:
 `ionic g page pages/list-pokemons`
 `ionic g page pages/detail-pokemon`
 
+# Generar servicio
+`ionic g s services/pokemon`
+
 ## Generar iconos
 Se añadieron los scripts correspondientes en el package.json, y las imagenes en la carpeta resources
 
