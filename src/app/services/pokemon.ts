@@ -65,9 +65,13 @@ export class Pokemon {
   getPokemon(id: number) {
     const options = { url: `${this.URL_BASE}/${id}`, params: {} };
 
-    return CapacitorHttp.get(options).then((response) =>
+    return CapacitorHttp.get(options)
+    .then((response) =>
       this.mapperPokemon(response.data)
-    );
+    )
+    .catch(() => {
+      return this.mapperPokemon(generatePokemonData(id));
+    });
   }
 
   private mapperPokemon(pokemonData: PokemonResponse): IPokemon {
