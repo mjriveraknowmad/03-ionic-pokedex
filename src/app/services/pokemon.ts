@@ -15,7 +15,7 @@ export class Pokemon {
   private readonly URL_BASE = 'https://pokeapi.co/api/v2/pokemon';
   private readonly nextUrl = signal(`${this.URL_BASE}?offset=0&limit=0`);
   readonly pokemons = signal<IPokemon[]>([]);
-  private readonly limit = signal(4);
+  private readonly limit = signal(10);
   private readonly offset = signal(0);
 
   getPokemons() {
