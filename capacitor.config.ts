@@ -1,0 +1,9 @@
+import type { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  appId: 'io.ionic.starter',
+  appName: '03-ionic-pokedex',
+  webDir: 'www'
+};
+
+export default config;
