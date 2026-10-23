@@ -7,34 +7,62 @@ import {
   IStat,
   PokemonResponse,
 } from '../pages/models/pokemon.model';
+import { mockResponsePokemonList } from './mockResponseList';
+import { generateMockCharacterList } from './mockGenerators';
 
 @Service()
 export class Pokemon {
   private readonly URL_BASE = 'https://pokeapi.co/api/v2/pokemon';
-  private readonly nextUrl = signal(`${this.URL_BASE}?offset=20&limit=0`);
-  private readonly pokemons = signal<IPokemon[]>([]);
+  private readonly nextUrl = signal(`${this.URL_BASE}?offset=0&limit=0`);
+  readonly pokemons = signal<IPokemon[]>([]);
+  private readonly limit = signal(4);
+  private readonly offset = signal(0);
 
   getPokemons() {
     if (!this.nextUrl()) {
       return null;
     }
     const options = { url: this.nextUrl(), params: {} };
-    return CapacitorHttp.get(options).then(async (response) => {
-      if (!response.data) return;
+    return CapacitorHttp
+      .get(options)
+      .then(async (response) => {
+        if (!response.data) return;
 
-      const results = (response.data as PokemonListResponse).results;
-
-      const promises = results.map((pokemon) =>
-        CapacitorHttp.get({ url: pokemon.url, params: {} })
-      );
-      await Promise.all(promises).then((responses) => {
-        responses.map((response) => {
-          this.pokemons().push(
-            this.mapperPokemon(response.data as PokemonResponse)
-          );
-        });
+        const results = (response.data as PokemonListResponse).results;
+        const pokemons = await this.getPokemonsDetails(results);
+        this.pokemons.update((current) => [...current, ...pokemons]);
+      })
+      .catch(async (error) => {
+        const page = generateMockCharacterList(this.offset(), this.limit());
+        const pokemons = await this.getPokemonsDetails(page.results);
+        const nextUrl = page.next;
+        if (nextUrl) {
+          const urlParams = new URLSearchParams(nextUrl.split('?')[1]);
+          this.offset.set(+urlParams.get('offset')!);
+          this.limit.set(+urlParams.get('limit')!);
+        }
+        this.pokemons.update((current) => [...current, ...pokemons]);
       });
-    });
+  }
+
+  private async getPokemonsDetails(
+    results: PokemonListResponse['results']
+  ): Promise<IPokemon[]> {
+    const promises = results.map((pokemon) =>
+      CapacitorHttp.get({ url: pokemon.url, params: {} })
+        .then((response) =>
+          this.mapperPokemon(response.data as PokemonResponse)
+        )
+        .catch(() => {
+          const id = +(pokemon.url.split('/').slice(-2, -1)[0]);
+          const mockIndex = id % 4;
+          return this.mapperPokemon(
+            mockResponsePokemonList[mockIndex] as PokemonResponse
+          );
+        })
+    );
+
+    return Promise.all(promises);
   }
 
   getPokemon(id: number) {
