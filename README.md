@@ -1,4 +1,8 @@
 # Ionic Pokedex
+
+
+NO USAR. Es una aplicación de pruebas, siguiendo el curso de https://www.udemy.com/course/aprende-ionic-con-proyectos-practicos, como estaba teniendo problemas con la API de Pokemons, he creado un sistema para que me devuelva datos falsos en el catch error de la petición.
+
 Es una aplicación básica de Ionic 7 con Angular 19 y usando Karma/Jassmine, para aprender. Para ello lo que se ejecutó:
 
 `npm install -g @ionic/cli@v7`
